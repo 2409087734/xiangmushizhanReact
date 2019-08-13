@@ -48,4 +48,17 @@ html,body,#root,.App{
 {
     flex: 8;
     /* background: red; */
+    position: relative;
+}
+.tankuang
+{
+    width: 500px;
+    height: 300px;
+    background: #ccc;
+    border-radius: 10px;
+    position: absolute;
+    left: 15%;
+    /* margin-left:  */
+    bottom: 35%;
+    padding: 20px;
 }

@@ -15,14 +15,14 @@ import {withRouter} from "react-router-dom"
         let {userName,password,realName,userType,phoneNum,userIcon,address} = this.state;
         return(
             <div>
-                <input type="text" value={userName} onChange={this.changevalue.bind(this)} name="userName"/>
-                <input type="text" value={password} onChange={this.changevalue.bind(this)} name="password"/>
-                <input type="text" value={realName} onChange={this.changevalue.bind(this)} name="realName"/>
-                <input type="text" value={userType} onChange={this.changevalue.bind(this)} name="userType"/>
-                <input type="text" value={phoneNum} onChange={this.changevalue.bind(this)} name="phoneNum"/>
-                <input type="text" value={userIcon} onChange={this.changevalue.bind(this)} name="userIcon"/>
-                <input type="text" value={address} onChange={this.changevalue.bind(this)} name="address"/>
-                <button onClick={this.handleZc.bind(this)}>注册</button>
+                <li>账户:<input type="text" value={userName} onChange={this.changevalue.bind(this)} placeholder="字符串类型" name="userName"/></li>
+                <li>密码:<input type="text" value={password} onChange={this.changevalue.bind(this)} placeholder="字符串类型" name="password"/></li>
+                <li>真实姓名:<input type="text" value={realName} onChange={this.changevalue.bind(this)} placeholder="字符串类型" name="realName"/></li>
+                <li>用户权限:<input type="text" value={userType} onChange={this.changevalue.bind(this)} placeholder="1 管理员 2: 组长 3: 普通 number类型" name="userType"/></li>
+                <li>电话:<input type="text" value={phoneNum} onChange={this.changevalue.bind(this)} placeholder="字符串类型" name="phoneNum"/></li>
+                <li>用户头像:<input type="text" value={userIcon} onChange={this.changevalue.bind(this)} placeholder="照片路径" name="userIcon"/></li>
+                <li>用户地址:<input type="text" value={address} onChange={this.changevalue.bind(this)} placeholder="字符串类型" name="address"/></li>
+                <li><button onClick={this.handleZc.bind(this)}>注册</button></li>
             </div>
         )
     }

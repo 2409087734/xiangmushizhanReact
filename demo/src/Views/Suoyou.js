@@ -3,57 +3,48 @@ import Header from "../component/Header"
 import Left from "../component/Left"
 import { Table } from 'antd';
 import {get,post} from "../Axios"
+import Tankuang from "../component/Tankuang"
+import {withRouter} from "react-router-dom"
 class Suoyou extends React.Component {
     constructor(props) {
         super()
         this.state={
-            data:[]
+            data:[],
+            isfals:false,
+            sonprops:{}
         }
     }
     render() {
-        // const data = [
-        //     {
-        //         key: 1,
-        //         name: 'John Brown',
-        //         age: 32,
-        //         address: 'New York No. 1 Lake Park',
-        //         description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-        //     },
-        //     {
-        //         key: 2,
-        //         name: 'Jim Green',
-        //         age: 42,
-        //         address: 'London No. 1 Lake Park',
-        //         description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-        //     },
-        //     {
-        //         key: 3,
-        //         name: 'Joe Black',
-        //         age: 32,
-        //         address: 'Sidney No. 1 Lake Park',
-        //         description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-        //     },
-        // ];
-        let {data}=this.state
+    //    alert(123)
+        let {data,isfals,sonprops}=this.state
         const columns = [
-            {  dataIndex: 'userName', key: 'userName' },
+            {title: '名子',  dataIndex: 'userName', key: '0x',id:"userId"},
             {
-                
+                title: '详情',
                 dataIndex: '',
-                key: 'x',
-                render: () => <a href="javascript:;">详情</a>,
+                key: '1',
+                id:"userId",
+                render: (id) => <a href="javascript:;" onClick={this.xiangqing.bind(this,id)}>详情</a>,
             },
             {
-               
+                title: '设置管理',
                 dataIndex: '',
-                key: 'x',
+                key: '2',
+                id:"userId",
                 render: () => <a href="javascript:;">设置管理</a>,
             },
             {
-                title: 'Action',
+                title: '编辑',
                 dataIndex: '',
-                key: 'x',
-                render: () => <a href="javascript:;">删除</a>,
+                key: '3',
+                id:"userId",
+                render: (id) => <a href="javascript:;" onClick={this.bianji.bind(this,id)}>编辑</a>,
+            }, {
+                title: '删除',
+                dataIndex: '',
+                key: '4',
+                id:"userId",
+                render: (id) => <a href="javascript:;" onClick={this.deleat.bind(this,data,id.userId)}>删除</a>,
             },
         ];
         return <div className="yemian">
@@ -63,12 +54,15 @@ class Suoyou extends React.Component {
                 <div className="content-right">
 
 
-                    <Table
-                        columns={columns}
-                        expandedRowRender={record => <p style={{ margin: 0 }}>{record.description}</p>}
-                        dataSource={data}
-                    />,
-
+                    <Table columns={columns} dataSource={data}></Table>
+                    {
+                       isfals?<Tankuang data={sonprops} fuchuanzi={(res)=>{ 
+                           this.setState({
+                               isfals:res
+                           })
+                       }}/>:""
+                    }
+                    
                 </div>
 
             </div>
@@ -76,6 +70,15 @@ class Suoyou extends React.Component {
              </div>
     }
     componentDidMount(){
+        this.moren()
+    }
+    deleat(data,id){
+        console.log(id)
+       post("/user/delete",{userId:id}).then(res=>{
+          this.moren()
+       })
+    }
+    moren(){
         let {data}=this.state
         get("/user").then(res=>{
             this.setState({
@@ -85,5 +88,17 @@ class Suoyou extends React.Component {
             
         })
     }
+    bianji(id){
+        console.log(id)
+        let {sonprops,isfals}=this.state;
+        this.setState({
+            sonprops:id,
+            isfals:true
+        })
+    }
+    xiangqing(id){
+        this.props.history.push("/xiangqing",id)
+        // console.log(this.props)
+    }
 }
-export default Suoyou
+export default withRouter(Suoyou)

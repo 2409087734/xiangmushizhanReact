@@ -7,7 +7,7 @@ function View(props){
         let redi=router.filter(item=>item.redirect);
     return<Switch>
                 {
-                    comp.map((item,index)=><Route key={index} path={item.path} render={()=>{return <item.component></item.component>}}></Route>).concat(redi.map((item,index)=><Redirect key={index} from={item.path} to={item.redirect}></Redirect>))
+                    comp.map((item,index)=><Route key={index} path={item.path} render={(props)=>{return <item.component children={item.children}></item.component>}}></Route>).concat(redi.map((item,index)=><Redirect key={index} from={item.path} to={item.redirect}></Redirect>))
                 }
           </Switch>
 }

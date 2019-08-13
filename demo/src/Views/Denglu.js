@@ -19,7 +19,7 @@ class Denglu extends React.Component{
             <Left/>
             <div className="content-right">
             <li><span>账户:</span><input type="text" value={userName} onChange={this.change.bind(this)} name="userName"/></li>
-            <li><span>账户:</span><input type="text" value={password} onChange={this.change.bind(this)} name="password"/></li>
+            <li><span>密码:</span><input type="text" value={password} onChange={this.change.bind(this)} name="password"/></li>
             <button onClick={this.denglu.bind(this)}>登录</button>
             </div>
              
@@ -37,7 +37,7 @@ class Denglu extends React.Component{
     denglu(){
         let {userName,password}=this.state
         post("/login",{userName,password}).then((res)=>{
-          
+            console.log(res)
             if(res.data.code)
             {
                 window.localStorage.setItem("token",res.data.token)
