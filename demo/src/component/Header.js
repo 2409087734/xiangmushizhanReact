@@ -13,7 +13,7 @@ class Header extends React.Component{
         
         let {title,you,zuo}=this.state
         return<div className="header">
-            <span>{zuo}</span>{this.props.title!=title?<span>{this.props.title+"页面"}</span>:<span>{title}</span>}<span>{this.props.title}</span>
+           {this.props.title!=title?<span>{this.props.title+"页面"}</span>:<span>{title}</span>}
         </div>
     }
 }

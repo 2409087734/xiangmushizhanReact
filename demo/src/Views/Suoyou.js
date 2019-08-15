@@ -5,47 +5,52 @@ import { Table } from 'antd';
 import {get,post} from "../Axios"
 import Tankuang from "../component/Tankuang"
 import {withRouter} from "react-router-dom"
+import LoadMoreList from "./Guanli"
+import {connect} from "react-redux"
 class Suoyou extends React.Component {
     constructor(props) {
         super()
         this.state={
             data:[],
             isfals:false,
-            sonprops:{}
+            sonprops:{},
+            list:[]
         }
     }
     render() {
     //    alert(123)
+    let {list}=this.state
         let {data,isfals,sonprops}=this.state
         const columns = [
-            {title: '名子',  dataIndex: 'userName', key: '0x',id:"userId"},
+            {title: '头像',  dataIndex: 'userIcon',id:"userId",render: (dataIndex) => <img className="img" src={dataIndex}/>,},
+            {title: '名子',  dataIndex: 'userName',id:"userId"},
             {
                 title: '详情',
                 dataIndex: '',
-                key: '1',
+               
                 id:"userId",
                 render: (id) => <a href="javascript:;" onClick={this.xiangqing.bind(this,id)}>详情</a>,
             },
             {
                 title: '设置管理',
                 dataIndex: '',
-                key: '2',
+               
                 id:"userId",
-                render: () => <a href="javascript:;">设置管理</a>,
+                render: (id) => <a href="javascript:;" onClick={this.guanli.bind(this,id)}>设置管理</a>,
             },
             {
                 title: '编辑',
                 dataIndex: '',
-                key: '3',
+               
                 id:"userId",
                 render: (id) => <a href="javascript:;" onClick={this.bianji.bind(this,id)}>编辑</a>,
             }, {
                 title: '删除',
                 dataIndex: '',
-                key: '4',
+              
                 id:"userId",
                 render: (id) => <a href="javascript:;" onClick={this.deleat.bind(this,data,id.userId)}>删除</a>,
-            },
+            }
         ];
         return <div className="yemian">
                 <Header title="所有" />
@@ -54,14 +59,21 @@ class Suoyou extends React.Component {
                 <div className="content-right">
 
 
-                    <Table columns={columns} dataSource={data}></Table>
+                    <Table columns={columns} dataSource={data} pagination={true}></Table>
                     {
                        isfals?<Tankuang data={sonprops} fuchuanzi={(res)=>{ 
                            this.setState({
                                isfals:res
                            })
-                       }}/>:""
+                       }} className="ant-table-wrapper"/>:""
                     }
+                    <div className="LoadMoreList-box">
+                         <li>管理员</li>
+                         {list.length>0?<LoadMoreList list={list}/>:""}
+                    </div>
+                   
+
+                    
                     
                 </div>
 
@@ -71,6 +83,7 @@ class Suoyou extends React.Component {
     }
     componentDidMount(){
         this.moren()
+
     }
     deleat(data,id){
         console.log(id)
@@ -100,5 +113,25 @@ class Suoyou extends React.Component {
         this.props.history.push("/xiangqing",id)
         // console.log(this.props)
     }
+    guanli(id){
+        this.props.seter(id)
+        let {list}=this.state
+        this.setState({
+            list:this.props.getseter
+        })
+        
+    }
 }
-export default withRouter(Suoyou)
+let qu=(state)=>{
+    return{
+        getseter:state.Seting
+    }
+}
+let cun=(dispatch)=>{
+    return{
+        seter(data){
+            dispatch({type:"SETING",data})
+        }
+    }
+}
+export default connect(qu,cun)(withRouter(Suoyou))
