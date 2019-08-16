@@ -84,6 +84,7 @@ class LoadMoreList extends React.Component {
       ) : null;
 
     return (
+      
       <List
         className="demo-loadmore-list"
         loading={initLoading}
@@ -97,11 +98,11 @@ class LoadMoreList extends React.Component {
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta
                 avatar={
-                  <Avatar src={item.userIcon} />
+                  <Avatar src={item.userIcon||item.groupIcon} />
                 }
                 // title={<a href="https://ant.design">{item.name}</a>}
                 description={item.phoneNum}
-               title={item.userName}
+                title={item.userName||item.leaderUserName}
               />
               <div>content</div>
             </Skeleton>
@@ -112,24 +113,10 @@ class LoadMoreList extends React.Component {
   }
   componentWillReceiveProps(){
       let {list}=this.props
-      // console.log(this.props.getseter)
-      // console.log(list)
-      // this.setState({
-      //     list:this.props.getseter
-      // })
+      
   }
 }
 
-// ReactDOM.render(<LoadMoreList />, document.getElementById('container'));
-// let qu=(state)=>{
-//     return{
-        
-//     }
-// } 
-// let cun=(dispatch)=>{
-//     return{
-        
-//     }
-// }
+
 export default LoadMoreList
           

@@ -10,13 +10,14 @@ import {get,post} from "../Axios"
             realName:data.realName,
             password:data.password,
             phoneNum:data.phoneNum,
-            userType:data.userType
+            userType:data.userType,
+            userIcon:data.userIcon
           }
      }
   
     render() {
         console.log(this.props)
-        let {userId,address,realName,password,phoneNum,userType}=this.state
+        let {userId,address,realName,password,phoneNum,userType,userIcon}=this.state
         console.log(userId)
       
         return (
@@ -27,6 +28,7 @@ import {get,post} from "../Axios"
                 <li><span>password:</span><input type="text" value={password} name="password" onChange={this.change.bind(this)}/></li>
                 <li><span>phoneNum:</span><input type="text" value={phoneNum} name="phoneNum" onChange={this.change.bind(this)}/></li>
                 <li><span>userType:</span><input type="text" value={userType} name="userType" onChange={this.change.bind(this)}/></li>
+                <li><span>userIcon:</span><input type="text" value={userIcon} name="userIcon" onChange={this.change.bind(this)}/></li>
                 <button onClick={this.queding.bind(this)}>确定</button><button onClick={this.quxiao.bind(this)}>取消</button>
             </div>
         )
@@ -43,12 +45,34 @@ import {get,post} from "../Axios"
         this.props.fuchuanzi(false)
     }
     queding(){
-        let {userId,address,realName,password,phoneNum,userType}=this.state
-        post("/user/update",{userId,address,realName,password,phoneNum,userType}).then(res=>{
+        
+        this.shujuxuanran(false)
+        setTimeout(()=>{ get("/user").then(res=>{
+          
+            console.log(res.data)
+            this.props.shuju(res.data)
+            
+        })},100)
+       
+        
+    }
+    shujuxuanran(isfalse){
+        let {userId,address,realName,password,phoneNum,userType,userIcon}=this.state
+        post("/user/update",{userId,address,realName,password,phoneNum,userType,userIcon}).then(res=>{
             console.log(res)
-            this.props.fuchuanzi(false)
-            // this.setState({})
+            if(res.data.code)
+            {
+
+                
+                 this.props.fuchuanzi(isfalse)
+            }
+           
+            
         })
+    }
+    componentDidMount(){
+        this.shujuxuanran(true)
+       
     }
 }
 

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 // import './index.css';
 import {get,post} from "../Axios"
+import Guanli from "../Views/Guanli"
 import { Button, Modal, Form, Input, Radio ,Select} from 'antd';
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
@@ -33,22 +34,27 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
             <Form.Item label="groupName">
               {getFieldDecorator('groupName', {
                 rules: [{ required: true, message: 'Please input the title of collection!' }],
-              })(<Input onChange={this.change.bind(this)} name="groupName" type="text" value={groupName}/>)}
+              })(<Input/>)}
             </Form.Item>
             <Form.Item label="groupPersonNum">
               {getFieldDecorator('groupPersonNum', {
                 rules: [{ required: true, message: 'Please input the title of collection!' }],
-              })(<Input onChange={this.change.bind(this)} name="groupPersonNum" type="" value={10}/>)}
+              })(<Select>
+                <option value={10}>10</option>
+                <option value={11}>11</option>
+                <option value={12}>12</option>
+                <option value={13}>13</option>
+              </Select>)}
             </Form.Item>
             <Form.Item label="leaderUserName">
               {getFieldDecorator('leaderUserName', {
                 rules: [{ required: true, message: 'Please input the title of collection!' }],
-              })(<Input onChange={this.change.bind(this)} name="leaderUserName" type="text" value={leaderUserName}/>)}
+              })(<Input />)}
             </Form.Item>
             <Form.Item label="groupIcon">
               {getFieldDecorator('groupIcon', {
                 rules: [{ required: true, message: 'Please input the title of collection!' }],
-              })(<Input onChange={this.change.bind(this)} name="groupIcon" type="text" value={groupIcon}/>)}
+              })(<Input />)}
             </Form.Item>
           
            
@@ -57,11 +63,11 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
       );
     }
     change(e){
-      let names=e.target.name;
-      console.log(e.target.name)
-      this.setState({
-        [names]:e.target.value
-      })
+      // let names=e.target.name;
+      // // console.log(e.target.name)
+      // this.setState({
+      //   [names]:e.target.value
+      // })
       
     }
   },
@@ -85,7 +91,8 @@ class CollectionsPage extends React.Component {
   handleCreate = () => {
     // alert(12345)确定键
     
-    console.log(this.formRef.props)
+   
+  //  this.props.xiaozuzichuanfu()
  
 
 
@@ -98,8 +105,16 @@ class CollectionsPage extends React.Component {
       let shuju=values
       let {groupName,groupPersonNum,groupIcon,leaderUserName}=shuju;
       console.log({groupName,groupPersonNum,groupIcon,leaderUserName})
-      post("/group/add",{groupName,groupPersonNum,leaderUserName}).then(res=>{
-        console.log(res)
+      post("/group/add",{groupName,groupPersonNum,groupIcon,leaderUserName}).then(res=>{
+        if(res.data.code)
+        {
+            // this.liebiaoshuju()
+            get("/group/list").then(res=>{
+      
+              this.props.xiaozuzichuanfu(res.data.result)
+              
+            })
+        }
       })
       form.resetFields();
 
@@ -113,6 +128,7 @@ class CollectionsPage extends React.Component {
   };
 
   render() {
+    let {list}=this.state
     return (
       <div>
         <Button type="primary" onClick={this.showModal} className="addbtn">
@@ -125,13 +141,29 @@ class CollectionsPage extends React.Component {
           onCreate={this.handleCreate}
           
         />
-         {/* <Select style={{ width: 70 }}>
-        <option value="86">+86</option>
-        <option value="87">+87</option>
-      </Select>, */}
+        {
+         list?<Guanli list={list}/>:""
+        }
+      
       </div>
     );
   }
+
+  liebiaoshuju(){
+   
+    
+  }
+  componentDidMount(){
+   
+    
+    
+    get("/group/list").then(res=>{
+      
+      this.props.xiaozuzichuanfu(res.data.result)
+      
+    })
+    
+   }
 }
 
 // ReactDOM.render(<CollectionsPage />, document.getElementById('container'));

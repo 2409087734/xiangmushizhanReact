@@ -12,6 +12,7 @@ import {withRouter} from "react-router-dom"
                 <li>{state.phoneNum}</li>
                 <li>{state.userId}</li>
                 <li>{state.userType}</li>
+                <li>{state.userIcon}</li>
                 
             </div>
         )
